@@ -1,13 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { collect } from "react-recollect";
+import { collect, WithStoreProp } from "react-recollect";
 import { useHistory } from "react-router-dom";
 import { Button, Menu } from "semantic-ui-react";
 import { routes } from "./Routes";
 import { logout } from "./stores/user";
 
-/* eslint-disable react-hooks/exhaustive-deps */
-
-export const Navigation = collect(({ store }) => {
+export const Navigation = collect(({ store }: WithStoreProp) => {
     const history = useHistory();
     const [activeRoute, setActiveRoute] = useState(
         routes[history.location.pathname.split("/")[1].toLowerCase()] || routes.home,
@@ -20,13 +18,13 @@ export const Navigation = collect(({ store }) => {
         await logout();
         setLoading(false);
         setActiveRoute(routes.home);
-    }, []);
+    }, [history]);
 
     return (
         <Menu>
             <Menu.Item header>Pet Rescue By Judy</Menu.Item>
             {Object.values(routes).map(route =>
-                !route.hide?.(store) ? (
+                !route.hideInNav?.(store) ? (
                     <Menu.Item
                         key={route.name}
                         name={route.name}
@@ -36,14 +34,14 @@ export const Navigation = collect(({ store }) => {
                 ) : null,
             )}
             {store.user?.user?.username ? (
-                <>
+                <Menu.Menu position="right">
                     <Menu.Item>{store.user.user.username}</Menu.Item>
                     <Menu.Item disabled={loading}>
                         <Button disabled={loading} primary onClick={doLogout}>
                             Logout
                         </Button>
                     </Menu.Item>
-                </>
+                </Menu.Menu>
             ) : null}
         </Menu>
     );

@@ -14,11 +14,11 @@ function AppA() {
     );
 }
 
-export const App = () => {
+export const AppRouter = () => {
     return (
         <Switch>
-            {Object.values(routes).map(({ route, component }) => (
-                <Route path={route} exact>
+            {Object.values(routes).map(({ route, component, exact }) => (
+                <Route path={route} exact={exact} key={route}>
                     {component?.() || <AppA />}
                 </Route>
             ))}

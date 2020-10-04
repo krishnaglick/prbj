@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.style.scss";
 import "semantic-ui-css/semantic.min.css";
-import { App } from "./App";
+import { AppRouter } from "./AppRouter";
 import * as serviceWorker from "./serviceWorker";
 import { Navigation } from "./Navigation";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -12,7 +12,7 @@ ReactDOM.render(
     <React.Fragment>
         <Router>
             <Navigation />
-            <App />
+            <AppRouter />
         </Router>
     </React.Fragment>,
     document.getElementById("root"),

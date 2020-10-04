@@ -4,8 +4,6 @@ import { Button, Container, Form } from "semantic-ui-react";
 import { login } from "../stores/user";
 import { routes } from "../Routes";
 
-/* eslint-disable react-hooks/exhaustive-deps */
-
 export const Login = () => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
@@ -16,7 +14,7 @@ export const Login = () => {
         await login(loginForm.username, loginForm.password);
         setLoading(false);
         history.push(routes.manage.route);
-    }, []);
+    }, [loginForm.username, loginForm.password, history]);
     return (
         <Container text>
             <h1>Login</h1>
