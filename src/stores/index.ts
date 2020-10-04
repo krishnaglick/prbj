@@ -1,5 +1,5 @@
-import { init as userInit } from "./user";
+import { initUserStore } from "./user";
 
-export const init = () => {
-    userInit();
+export const initStore = () => {
+    initUserStore();
 };

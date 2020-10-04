@@ -1,62 +1,43 @@
-import React from "react";
-import { Form, Input, TextArea, Button, Select } from "semantic-ui-react";
+import React, { useCallback, useState } from "react";
+import { useHistory } from "react-router";
+import { Button, Container, Form } from "semantic-ui-react";
+import { login } from "../stores/user";
+import { routes } from "../Routes";
 
-const genderOptions = [
-    { key: "m", text: "Male", value: "male" },
-    { key: "f", text: "Female", value: "female" },
-    { key: "o", text: "Other", value: "other" },
-];
+/* eslint-disable react-hooks/exhaustive-deps */
 
 export const Login = () => {
+    const history = useHistory();
+    const [loading, setLoading] = useState(false);
+    const [loginForm, updateLoginForm] = useState({ username: "", password: "" });
+
+    const doLogin = useCallback(async () => {
+        setLoading(true);
+        await login(loginForm.username, loginForm.password);
+        setLoading(false);
+        history.push(routes.manage.route);
+    }, []);
     return (
-        <>
-            <h1>asdf</h1>
-            <Form>
-                <Form.Group widths="equal">
-                    <Form.Field
-                        id="form-input-control-first-name"
-                        control={Input}
-                        label="First name"
-                        placeholder="First name"
-                    />
-                    <Form.Field
-                        id="form-input-control-last-name"
-                        control={Input}
-                        label="Last name"
-                        placeholder="Last name"
-                    />
-                    <Form.Field
-                        control={Select}
-                        options={genderOptions}
-                        label={{ children: "Gender", htmlFor: "form-select-control-gender" }}
-                        placeholder="Gender"
-                        search
-                        searchInput={{ id: "form-select-control-gender" }}
-                    />
-                </Form.Group>
-                <Form.Field
-                    id="form-textarea-control-opinion"
-                    control={TextArea}
-                    label="Opinion"
-                    placeholder="Opinion"
+        <Container text>
+            <h1>Login</h1>
+            <Form loading={loading}>
+                <Form.Input
+                    required
+                    id="form-input-control-username"
+                    label="Username"
+                    placeholder="Username"
+                    onChange={v => updateLoginForm({ ...loginForm, username: v.target.value })}
                 />
-                <Form.Field
-                    id="form-input-control-error-email"
-                    control={Input}
-                    label="Email"
-                    placeholder="joe@schmoe.com"
-                    error={{
-                        content: "Please enter a valid email address",
-                        pointing: "below",
-                    }}
+                <Form.Input
+                    required
+                    id="form-input-control-password"
+                    onChange={v => updateLoginForm({ ...loginForm, password: v.target.value })}
+                    type="password"
+                    label="Password"
+                    placeholder="Password"
                 />
-                <Form.Field
-                    id="form-button-control-public"
-                    control={Button}
-                    content="Confirm"
-                    label="Label with htmlFor"
-                />
+                <Button primary id="form-button-login" onClick={doLogin} content="Login" />
             </Form>
-        </>
+        </Container>
     );
 };

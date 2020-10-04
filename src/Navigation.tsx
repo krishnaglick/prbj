@@ -1,25 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { collect } from "react-recollect";
 import { useHistory } from "react-router-dom";
-import { Menu } from "semantic-ui-react";
+import { Button, Menu } from "semantic-ui-react";
+import { routes } from "./Routes";
+import { logout } from "./stores/user";
 
-enum menuItems {
-    home = "Home",
-    cats = "Cats",
-    dogs = "Dogs",
-    volunteers = "Volunteers",
-}
+/* eslint-disable react-hooks/exhaustive-deps */
 
-export const Navigation = () => {
-    const [activeItem, setActiveItem] = useState(menuItems.home);
+export const Navigation = collect(({ store }) => {
     const history = useHistory();
-    useEffect(() => history.push(`/${activeItem}`), [activeItem]);
+    const [activeRoute, setActiveRoute] = useState(
+        routes[history.location.pathname.split("/")[1].toLowerCase()] || routes.home,
+    );
+    useEffect(() => history.push(activeRoute.route), [activeRoute]);
+
+    const [loading, setLoading] = useState(false);
+    const doLogout = useCallback(async () => {
+        setLoading(true);
+        await logout();
+        setLoading(false);
+        setActiveRoute(routes.home);
+    }, []);
 
     return (
         <Menu>
             <Menu.Item header>Pet Rescue By Judy</Menu.Item>
-            {Object.values(menuItems).map(item => (
-                <Menu.Item key={item} name={item} active={activeItem === item} onClick={() => setActiveItem(item)} />
-            ))}
+            {Object.values(routes).map(route =>
+                !route.hide?.(store) ? (
+                    <Menu.Item
+                        key={route.name}
+                        name={route.name}
+                        active={activeRoute.name === route.name}
+                        onClick={() => setActiveRoute(route)}
+                    />
+                ) : null,
+            )}
+            {store.user?.user?.username ? (
+                <>
+                    <Menu.Item>{store.user.user.username}</Menu.Item>
+                    <Menu.Item disabled={loading}>
+                        <Button disabled={loading} primary onClick={doLogout}>
+                            Logout
+                        </Button>
+                    </Menu.Item>
+                </>
+            ) : null}
         </Menu>
     );
-};
+});

@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+import "./index.style.scss";
 import "semantic-ui-css/semantic.min.css";
 import { App } from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { Navigation } from "./Navigation";
 import { BrowserRouter as Router } from "react-router-dom";
-import { init } from "./stores/user";
+import { initStore } from "./stores";
 
 ReactDOM.render(
     <React.Fragment>
@@ -16,7 +16,7 @@ ReactDOM.render(
         </Router>
     </React.Fragment>,
     document.getElementById("root"),
-    () => init(),
+    () => initStore(),
 );
 
 // If you want your app to work offline and load faster, you can change

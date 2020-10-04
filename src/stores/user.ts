@@ -1,9 +1,9 @@
 import { store } from "react-recollect";
 
 export type Permissions = {
-    dogs: boolean;
-    cats: boolean;
-    admin: boolean;
+    dogs?: boolean;
+    cats?: boolean;
+    admin?: boolean;
 };
 
 export type User = {
@@ -15,17 +15,44 @@ export type User = {
 
 export type UserState = {
     loggedIn: boolean;
-    user: User | null;
+    user?: Partial<User>;
 };
 
-export const init = () => {
+export const initUserStore = () => {
     const user: UserState = JSON.parse(localStorage.getItem("user") || "{}");
     if (user.loggedIn) {
         store.user = user;
     } else {
         store.user = {
             loggedIn: false,
-            user: null,
+            user: {},
         };
     }
+};
+
+export const login = async (username: string, password: string) => {
+    // Do Login
+    return await new Promise(res => {
+        store.user!.loggedIn = true;
+        store.user!.user!.firstName = "Volun";
+        store.user!.user!.lastName = "Teer";
+        store.user!.user!.permissions = {
+            admin: true,
+            cats: true,
+            dogs: true,
+        };
+        store.user!.user!.username = username;
+        localStorage.setItem("user", JSON.stringify(store.user));
+        setTimeout(res, 200);
+    });
+};
+
+export const logout = async () => {
+    // Do logout
+    return await new Promise(res => {
+        store.user!.loggedIn = false;
+        store.user!.user = {};
+        localStorage.setItem("user", "{}");
+        setTimeout(res, 200);
+    });
 };
