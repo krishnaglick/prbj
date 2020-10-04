@@ -13,11 +13,7 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
-        "jsx": "react",
-        "baseUrl": ".",
-        "paths": {
-            "react-recollect": ["src/stores/react-recollect.d.ts"]
-        }
+        "jsx": "react"
     },
     "include": ["src"]
 }
