@@ -8,6 +8,7 @@ import { Navigation } from "./Navigation";
 import { BrowserRouter as Router } from "react-router-dom";
 import { initStore } from "./stores";
 
+initStore();
 ReactDOM.render(
     <React.Fragment>
         <Router>
@@ -16,7 +17,6 @@ ReactDOM.render(
         </Router>
     </React.Fragment>,
     document.getElementById("root"),
-    () => initStore(),
 );
 
 // If you want your app to work offline and load faster, you can change

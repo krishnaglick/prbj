@@ -10,7 +10,7 @@ export const Navigation = collect(({ store }: WithStoreProp) => {
     const [activeRoute, setActiveRoute] = useState(
         routes[history.location.pathname.split("/")[1].toLowerCase()] || routes.home,
     );
-    useEffect(() => history.push(activeRoute.route), [activeRoute]);
+    useEffect(() => history.push(activeRoute.route), [activeRoute, history]);
 
     const [loading, setLoading] = useState(false);
     const doLogout = useCallback(async () => {

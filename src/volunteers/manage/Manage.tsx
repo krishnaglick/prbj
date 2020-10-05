@@ -10,7 +10,7 @@ export const Manage = collect(({ store }: WithStoreProp) => {
     const [activeRoute, setActiveRoute] = useState(
         manageRoutes[history.location.pathname.split("/")[3]?.toLowerCase()] || routes[0] || manageRoutes.cats,
     );
-    useEffect(() => history.push(activeRoute.route), [activeRoute]);
+    useEffect(() => history.push(activeRoute.route), [activeRoute, history]);
 
     return (
         <Container>
