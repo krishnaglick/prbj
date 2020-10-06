@@ -3,6 +3,7 @@ import { collect, WithStoreProp } from "react-recollect";
 import { useHistory } from "react-router";
 import { Container, Grid, Menu } from "semantic-ui-react";
 import { manageRoutes } from "../../Routes";
+import "./Manage.style.scss";
 
 export const Manage = collect(({ store }: WithStoreProp) => {
     const history = useHistory();
@@ -14,23 +15,23 @@ export const Manage = collect(({ store }: WithStoreProp) => {
 
     return (
         <Container>
-            <Grid>
-                <Grid.Column width={4}>
-                    <Menu fluid vertical tabular>
-                        {routes.map(route => (
-                            <Menu.Item
-                                key={route.name}
-                                name={route.name}
-                                active={activeRoute.name === route.name}
-                                onClick={() => setActiveRoute(route)}
-                            />
-                        ))}
-                    </Menu>
-                </Grid.Column>
+            <Grid divided="vertically" celled>
+                <Grid.Row columns={2}>
+                    <Grid.Column width={4}>
+                        <Menu fluid vertical tabular>
+                            {routes.map(route => (
+                                <Menu.Item
+                                    key={route.name}
+                                    name={route.name}
+                                    active={activeRoute.name === route.name}
+                                    onClick={() => setActiveRoute(route)}
+                                />
+                            ))}
+                        </Menu>
+                    </Grid.Column>
 
-                <Grid.Column stretched width={12}>
                     {activeRoute.component?.()}
-                </Grid.Column>
+                </Grid.Row>
             </Grid>
         </Container>
     );

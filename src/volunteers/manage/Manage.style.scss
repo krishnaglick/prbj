@@ -1,0 +1,14 @@
+.filters {
+    .filter-item {
+        margin: 5px 0 5px 0;
+    }
+}
+
+.search {
+    display: flex;
+    flex-direction: row;
+
+    .clear-search {
+        margin-left: 5px;
+    }
+}
