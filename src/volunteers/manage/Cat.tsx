@@ -9,6 +9,7 @@ export const Cat = ({ cat, updateCat }: { cat: CatType; updateCat: (cat: CatType
         <Segment vertical>Gender: {cat.gender}</Segment>
         <Segment vertical>Altered?: {cat.altered ? "Yes" : "No"}</Segment>
         <Segment vertical>Microchip Number: {cat.microchipNumber}</Segment>
+        {cat.adopted ? <Segment vertical>This cat has been adopted</Segment> : null}
         <Segment.Group>
             <Segment attached="top">Intake</Segment>
             <Segment>From: {cat.intake.from}</Segment>
